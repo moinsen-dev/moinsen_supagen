@@ -37,6 +37,7 @@ Future<void> generateDartFiles(String inputFile, String outputDir) async {
     sink.write("part '$modifiedTable.g.dart';\n\n");
     sink.write('@freezed\n');
     sink.write('class $pascalCaseTable with _\$$pascalCaseTable {\n');
+    sink.write("  static const tableName = '$table';\n\n");
     sink.write('  const factory $pascalCaseTable({\n');
 
     final fields = sortAndFilterByName(json[table] as List<dynamic>);
