@@ -1,0 +1,678 @@
+[
+  {
+    "tables_info": {
+      "cme_edges": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "PRIMARY KEY"
+        },
+        {
+          "name": "direction",
+          "type": "text",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "color",
+          "type": "text",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "thickness",
+          "type": "int4",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        }
+      ],
+      "cme_ideas": [
+        {
+          "name": "id_idea",
+          "type": "uuid",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "PRIMARY KEY"
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        }
+      ],
+      "cme_items": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "PRIMARY KEY"
+        },
+        {
+          "name": "id_user",
+          "type": "uuid",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "FOREIGN KEY"
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "text",
+          "type": "text",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "data",
+          "type": "json",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "notes",
+          "type": "_text",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "category",
+          "type": "cme_enum_category",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "priority",
+          "type": "cme_enum_priority",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "origin",
+          "type": "cme_enum_origin",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "classification",
+          "type": "cme_enum_classification",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "tags",
+          "type": "_text",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "start_date",
+          "type": "timestamptz",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "end_date",
+          "type": "timestamptz",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "attachments",
+          "type": "_text",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "id_location",
+          "type": "int8",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "FOREIGN KEY"
+        }
+      ],
+      "cme_scores": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "PRIMARY KEY"
+        },
+        {
+          "name": "id_idea",
+          "type": "uuid",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "FOREIGN KEY"
+        },
+        {
+          "name": "score_type",
+          "type": "cme_enum_score_type",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "score_value",
+          "type": "int4",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        }
+      ],
+      "table_infos": [
+        {
+          "name": "tables_info",
+          "type": "jsonb",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        }
+      ],
+      "cme_profiles": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "FOREIGN KEY"
+        },
+        {
+          "name": "id",
+          "type": "uuid",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "PRIMARY KEY"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "username",
+          "type": "text",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "UNIQUE"
+        },
+        {
+          "name": "full_name",
+          "type": "text",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "avatar_url",
+          "type": "text",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "website",
+          "type": "text",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "id_user",
+          "type": "uuid",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "FOREIGN KEY"
+        }
+      ],
+      "cme_locations": [
+        {
+          "name": "id",
+          "type": "int8",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "PRIMARY KEY"
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "id_google_place",
+          "type": "text",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "update_at",
+          "type": "timestamptz",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "id_user",
+          "type": "uuid",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "FOREIGN KEY"
+        }
+      ],
+      "cme_idea_items": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "PRIMARY KEY"
+        },
+        {
+          "name": "id_idea",
+          "type": "uuid",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "FOREIGN KEY"
+        },
+        {
+          "name": "id_item",
+          "type": "uuid",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "FOREIGN KEY"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        }
+      ],
+      "cme_node_pages": [
+        {
+          "name": "id",
+          "type": "int8",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "PRIMARY KEY"
+        },
+        {
+          "name": "id_parent_page",
+          "type": "int8",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "FOREIGN KEY"
+        },
+        {
+          "name": "path",
+          "type": "text",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "UNIQUE"
+        },
+        {
+          "name": "checksum",
+          "type": "text",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "meta",
+          "type": "jsonb",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "type",
+          "type": "text",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "source",
+          "type": "text",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        }
+      ],
+      "cme_recordings": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "PRIMARY KEY"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "url",
+          "type": "text",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "id_user",
+          "type": "uuid",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "FOREIGN KEY"
+        },
+        {
+          "name": "text",
+          "type": "text",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "language",
+          "type": "text",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        }
+      ],
+      "table_relations": [
+        {
+          "name": "tables_relations",
+          "type": "jsonb",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        }
+      ],
+      "cme_idea_versions": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "PRIMARY KEY"
+        },
+        {
+          "name": "id_idea",
+          "type": "uuid",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "FOREIGN KEY"
+        },
+        {
+          "name": "version",
+          "type": "int4",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        }
+      ],
+      "cme_item_relations": [
+        {
+          "name": "id_parent_item",
+          "type": "uuid",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "FOREIGN KEY"
+        },
+        {
+          "name": "id_child_item",
+          "type": "uuid",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "FOREIGN KEY"
+        },
+        {
+          "name": "id_edge",
+          "type": "uuid",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "FOREIGN KEY"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "id",
+          "type": "uuid",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "PRIMARY KEY"
+        }
+      ],
+      "cme_node_pages_section": [
+        {
+          "name": "id",
+          "type": "int8",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "PRIMARY KEY"
+        },
+        {
+          "name": "id_page",
+          "type": "int8",
+          "comment": null,
+          "nullable": false,
+          "keyInformations": "FOREIGN KEY"
+        },
+        {
+          "name": "content",
+          "type": "text",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "token_count",
+          "type": "int4",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "embedding",
+          "type": "vector",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "slug",
+          "type": "text",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        },
+        {
+          "name": "heading",
+          "type": "text",
+          "comment": null,
+          "nullable": true,
+          "keyInformations": "NONE"
+        }
+      ]
+    }
+  }
+]

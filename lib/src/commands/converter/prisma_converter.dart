@@ -7,7 +7,8 @@ import 'package:moinsen_supagen/src/commands/converter/utils.dart';
 
 Future<void> generatePrismaFile(String inputFile, String outputDir) async {
   final input = await File(inputFile).readAsString();
-  final json = jsonDecode(input) as Map<String, dynamic>;
+  final list = jsonDecode(input);
+  final json = list[0]['tables_info'] as Map<String, dynamic>;
 
   final directory = Directory(outputDir);
   if (!directory.existsSync()) {

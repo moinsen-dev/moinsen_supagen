@@ -26,7 +26,7 @@
         "convert",
         "-g dart",
         "-o example/lib/entities",
-        "-i example/input/table_definitions.json"
+        "-i example/json/table-infos.json"
       ],
       "program": "bin/moinsen_supagen.dart"
     },
@@ -38,7 +38,7 @@
         "convert",
         "-g prisma",
         "-o example/orm",
-        "-i example/input/table_definitions.json"
+        "-i example/json/table-infos.json"
       ],
       "program": "bin/moinsen_supagen.dart"
     },
@@ -50,7 +50,7 @@
         "convert",
         "-g erd",
         "-o example/orm",
-        "-i example/input/table_definitions.json"
+        "-i example/json/table-infos.json"
       ],
       "program": "bin/moinsen_supagen.dart"
     }

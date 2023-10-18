@@ -1,3 +1,4 @@
+const sqlTableRelations = '''
 WITH 
     fk_constraints AS (
         SELECT
@@ -62,3 +63,4 @@ SELECT
     JSONB_OBJECT_AGG(referencing_table, relations) AS tables_relations
 FROM
     mermaid_relations;
+''';

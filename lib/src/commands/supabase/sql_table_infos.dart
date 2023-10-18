@@ -1,3 +1,4 @@
+const sqlTableInfos = '''
 WITH 
     table_columns AS (
         SELECT
@@ -82,3 +83,4 @@ SELECT
     JSONB_OBJECT_AGG(table_name, columns) AS tables_info
 FROM 
     aggregated_columns;
+''';
