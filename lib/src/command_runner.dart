@@ -40,6 +40,7 @@ class MoinsenSupabaseGenCommandRunner extends CompletionCommandRunner<int> {
 
     // Add sub commands
     addCommand(ConvertCommand(logger: _logger));
+    addCommand(DbCommand(logger: _logger));
     addCommand(UpdateCommand(logger: _logger, pubUpdater: _pubUpdater));
   }
 

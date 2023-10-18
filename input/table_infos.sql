@@ -2,6 +2,7 @@ WITH
     table_columns AS (
         SELECT
             tc.table_name,
+            tc.table_schema,
             kcu.constraint_name,
             cc.column_name AS column_name,
             cc.udt_name || 
@@ -14,7 +15,8 @@ WITH
                 WHEN kcu.constraint_name IS NOT NULL THEN tco.constraint_type
                 ELSE 'NONE'
             END AS key_type,
-            cc.ordinal_position
+            cc.ordinal_position,
+            pg_catalog.col_description(pg_catalog.pg_class.oid, cc.ordinal_position) AS column_comment
         FROM 
             information_schema.tables AS tc
         JOIN 
@@ -39,6 +41,10 @@ WITH
             kcu.table_schema = tco.table_schema
         AND 
             kcu.table_name = tco.table_name
+        LEFT JOIN
+            pg_catalog.pg_class
+        ON 
+            pg_catalog.pg_class.relname = tc.table_name
         WHERE 
             tc.table_schema = 'public'
 ),
@@ -49,6 +55,7 @@ WITH
             data_type,
             is_nullable,
             key_type,
+            column_comment,
             ROW_NUMBER() OVER (PARTITION BY table_name ORDER BY ordinal_position) AS rn
         FROM
             table_columns
@@ -61,7 +68,8 @@ WITH
                 'name', column_name,
                 'type', data_type,
                 'nullable', CASE WHEN is_nullable = 'YES' THEN true ELSE false END,
-                'keyInformations', key_type
+                'keyInformations', key_type,
+                'comment', column_comment -- Kommentar hier hinzugefügt
             )
             ORDER BY rn
         ) AS columns

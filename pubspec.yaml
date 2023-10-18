@@ -10,12 +10,13 @@ dependencies:
   antlr4:
   args: ^2.4.1
   cli_completion: ^0.3.0
-  http: ^1.1.0
+  http:
   mason_logger: ^0.2.5
   path:
   pub_updater: ^0.3.1
   supabase: ^1.11.9
   
+
 dev_dependencies:
   build_runner: ^2.4.4
   build_verify: ^3.1.0

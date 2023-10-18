@@ -32,7 +32,7 @@ class ConvertCommand extends Command<int> {
 
   @override
   String get description => '''
-  Convert command to generate dart or prisma files from a json file with table informations.
+Convert command to generate dart or prisma files from a json file with table informations.
 ''';
 
   @override

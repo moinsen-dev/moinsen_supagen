@@ -43,7 +43,7 @@ dart pub global activate moinsen_supagen
 Or locally via:
 
 ```sh
-dart pub global activate --source=path <path to this package>
+dart pub global activate . --source path
 ```
 
 ## Usage
