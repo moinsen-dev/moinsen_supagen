@@ -1,28 +1,29 @@
+// ignore_for_file: avoid_print, inference_failure_on_function_invocation
+
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:supabase/supabase.dart';
 
-Future<void> supabase() async {
-  // Supabase API configuration
-  const supabaseUrl = 'https://thegujdvcskcjprlkzgt.supabase.co';
-  const supabaseKey =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZWd1amR2Y3NrY2pwcmxremd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTY5NTQyNTcsImV4cCI6MjAxMjUzMDI1N30.AOfJO0yZu4OFO26tL6oH4On8RU81iMG64EiiFazztf0';
+Future<void> supabase({
+  required String supabaseUrl,
+  required String supabaseApiKey,
+}) async {
+  final supabase = SupabaseClient(supabaseUrl, supabaseApiKey);
 
-  final supabase = SupabaseClient(supabaseUrl, supabaseKey);
-
-  final data =
-      await supabase.from(
-        'information_schema.table_constraints'
-        ).select();
+  final data = await supabase
+      .from(
+        'information_schema.table_constraints',
+      )
+      .select();
   print(data.data);
 
   try {
     final response = await http.get(
       Uri.parse('$supabaseUrl/rest/v1/tables?select=table_name'),
       headers: {
-        'apikey': supabaseKey,
+        'apikey': supabaseApiKey,
       },
     );
 
@@ -32,7 +33,7 @@ Future<void> supabase() async {
       for (final table in tables) {
         final tableName = table['table_name'] as String;
         final tableColumns =
-            await fetchTableColumns(supabaseUrl, supabaseKey, tableName);
+            await fetchTableColumns(supabaseUrl, supabaseApiKey, tableName);
         final dartCode = generateDartCode(tableName, tableColumns);
 
         // Write the generated Dart code to a .dart file

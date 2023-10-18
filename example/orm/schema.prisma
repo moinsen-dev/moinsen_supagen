@@ -1,0 +1,17 @@
+model Post {
+  authorid Int
+  content String
+  createdat Datetime @default(autoincrement())
+  id Int @default(autoincrement()) @id
+  published Bool @default(autoincrement())
+  title String @default(autoincrement())
+  updatedat Datetime @default(autoincrement())
+  viewcount Int @default(autoincrement())
+}
+
+model User {
+  email String @default(autoincrement())
+  id Int @default(autoincrement()) @id
+  name String
+}
+

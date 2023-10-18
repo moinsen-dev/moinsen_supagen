@@ -1,0 +1,44 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "supagen-dart-convert",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "convert",
+        "-g dart",
+        "-o example/lib/entities",
+        "-i example/input/table_definitions.json"
+      ],
+      "program": "bin/moinsen_supagen.dart"
+    },
+    {
+      "name": "supagen-prisma-convert",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "convert",
+        "-g prisma",
+        "-o example/orm",
+        "-i example/input/table_definitions.json"
+      ],
+      "program": "bin/moinsen_supagen.dart"
+    },
+    {
+      "name": "supagen-erd-convert",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "convert",
+        "-g erd",
+        "-o example/orm",
+        "-i example/input/table_definitions.json"
+      ],
+      "program": "bin/moinsen_supagen.dart"
+    }
+  ]
+}

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
 import 'package:antlr4/antlr4.dart';
@@ -6,7 +8,7 @@ import 'package:moinsen_supagen/gen/antlr/PrismaLexer.dart';
 import 'package:moinsen_supagen/gen/antlr/PrismaParser.dart';
 
 void main() {
-  final file = File('./lib/test.prisma');
+  final file = File('./input/test.prisma');
   final input = file.readAsStringSync();
 
   final inputStream = InputStream.fromString(input);
@@ -18,7 +20,8 @@ void main() {
   // Fügen Sie einen ErrorListener hinzu, um Syntaxfehler zu erfassen
   parser.addErrorListener(ConsoleErrorListener.INSTANCE);
 
-  // Fügen Sie einen ParseTreeListener hinzu, um die Ausgabe des Parsers zu erhalten
+  // Fügen Sie einen ParseTreeListener hinzu,
+  // um die Ausgabe des Parsers zu erhalten
   final parseTreeListener = MyParseTreeListener();
 
   parser.addParseListener(parseTreeListener);
@@ -49,13 +52,13 @@ class MyParseTreeListener extends ParseTreeListener {
   }
 
   @override
-  void enterEveryRule(ParserRuleContext ctx) {
-    print('EnterRule: ${ctx.runtimeType}');
+  void enterEveryRule(ParserRuleContext node) {
+    print('EnterRule: ${node.runtimeType}');
   }
 
   @override
-  void exitEveryRule(ParserRuleContext ctx) {
-    print('ExitRule: ${ctx.runtimeType}');
+  void exitEveryRule(ParserRuleContext node) {
+    print('ExitRule: ${node.runtimeType}');
   }
 }
 

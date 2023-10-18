@@ -1,0 +1,31 @@
+name: example
+description: A new Flutter project.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.1.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  supabase_flutter:
+  storage_client:
+  supabase_auth_ui: 
+  freezed_annotation:
+  json_annotation:
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints:
+  build_runner:
+  custom_lint:
+  json_serializable:
+  freezed:
+
+
+flutter:
+  uses-material-design: true

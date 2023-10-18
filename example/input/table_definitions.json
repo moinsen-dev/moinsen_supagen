@@ -1,0 +1,72 @@
+{
+  "post": [
+    {
+      "name": "id",
+      "type": "int",
+      "nullable": false,
+      "keyInformations": "PRIMARY KEY"
+    },
+    {
+      "name": "createdAt",
+      "type": "timestamp",
+      "nullable": false,
+      "keyInformations": "NONE"
+    },
+    {
+      "name": "updatedAt",
+      "type": "timestamp",
+      "nullable": false,
+      "keyInformations": "NONE"
+    },
+    {
+      "name": "title",
+      "type": "text",
+      "nullable": false,
+      "keyInformations": "NONE"
+    },
+    {
+      "name": "content",
+      "type": "text",
+      "nullable": true,
+      "keyInformations": "NONE"
+    },
+    {
+      "name": "published",
+      "type": "boolean",
+      "nullable": false,
+      "keyInformations": "NONE"
+    },
+    {
+      "name": "viewCount",
+      "type": "int",
+      "nullable": false,
+      "keyInformations": "NONE"
+    },
+    {
+      "name": "authorId",
+      "type": "int",
+      "nullable": true,
+      "keyInformations": "FOREIGN KEY"
+    }
+  ],
+  "user": [
+    {
+      "name": "id",
+      "type": "int",
+      "nullable": false,
+      "keyInformations": "PRIMARY KEY"
+    },
+    {
+      "name": "email",
+      "type": "text",
+      "nullable": false,
+      "keyInformations": "UNIQUE"
+    },
+    {
+      "name": "name",
+      "type": "text",
+      "nullable": true,
+      "keyInformations": "NONE"
+    }
+  ]
+}

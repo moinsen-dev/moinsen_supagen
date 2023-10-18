@@ -10,6 +10,28 @@ Generate supabase helper code..
 
 ---
 
+## Pre requirements
+* Conda must be installed
+
+## First steps
+# Setup Antl4
+
+'''sh
+conda create -n antlr python=3.11.4
+pip install antlr4-tools
+conda activate antlr
+```
+
+## Generate parser
+```sh
+rm -rf lib/gen && antlr4 -visitor -Dlanguage=Dart Prisma.g4 -o lib/gen/antlr 
+```
+
+## Test grammar
+```sh
+dart lib/grammar_test.dart
+```
+
 ## Getting Started 🚀
 
 If the CLI application is available on [pub](https://pub.dev), activate globally via:
