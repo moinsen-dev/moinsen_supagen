@@ -8,8 +8,8 @@ import 'package:path/path.dart' as p;
 
 Future<void> generateErdFile(String inputFile, String outputDir) async {
   final input = await File(inputFile).readAsString();
-  final list = jsonDecode(input);
-  final json = list[0]['tables_info'] as Map<String, dynamic>;
+  final jsonInput = jsonDecode(input);
+  final json = jsonInput['tables_infos'] as Map<String, dynamic>;
 
   final directory = Directory(outputDir);
   if (!directory.existsSync()) {

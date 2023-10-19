@@ -1,20 +1,29 @@
 import 'package:moinsen_supagen/moinsen_supagen.dart';
 
-abstract class MoinsenBaseEntity<T> extends Equatable {
+abstract class MoinsenBaseEntity<T> {
   static const tableName = 'moinsen_base_entity';
   static const pkKey = ['id'];
 
-  String get ztableName => MoinsenBaseEntity.tableName;
+  String idName() {
+    return 'id';
+  }
 
-  String get idName;
-  Object? get identifier;
+  Object? identifier() {
+    return null;
+  }
 
-  T fromJson(Map<String, Object?> json);
+  String get ztableName => tableName;
 
-  Map<String, dynamic> toJson();
+  T fromJson(Map<String, Object?> json) {
+    return null as T;
+  }
+
+  Map<String, Object?> toJson() {
+    return {};
+  }
 }
 
-extension MoinsenSupaCmeEdge<T> on MoinsenBaseEntity<T> {
+extension MoinsenSupaEntityExt<T> on MoinsenBaseEntity<T> {
   Future<dynamic> upsert() async {
     final client = Supabase.instance.client;
 
@@ -26,7 +35,7 @@ extension MoinsenSupaCmeEdge<T> on MoinsenBaseEntity<T> {
   }
 
   Future<void> delete() async {
-    if (identifier == null) {
+    if (identifier() == null) {
       return;
     }
 
@@ -34,7 +43,7 @@ extension MoinsenSupaCmeEdge<T> on MoinsenBaseEntity<T> {
 
     // ignore: unused_local_variable
     final response =
-        await client.from(ztableName).delete().eq(idName, identifier!);
+        await client.from(ztableName).delete().eq(idName(), identifier);
   }
 
   Future<List<T>> select([String columns = '*']) async {
@@ -46,14 +55,17 @@ extension MoinsenSupaCmeEdge<T> on MoinsenBaseEntity<T> {
   }
 
   Future<T?> selectById() async {
-    if (identifier == null) {
+    if (identifier() == null) {
       return null;
     }
 
     final client = Supabase.instance.client;
 
-    final response =
-        await client.from(ztableName).select().eq(idName, identifier!).single();
+    final response = await client
+        .from(ztableName)
+        .select()
+        .eq(idName(), identifier)
+        .single();
 
     return fromJson(response);
   }

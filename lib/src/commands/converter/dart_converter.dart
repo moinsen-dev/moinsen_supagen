@@ -57,7 +57,6 @@ Future<void> generateDartFiles(String inputFile, String outputDir) async {
 
     // Convert pkKey to a list of quoted strings
     final pkKeyString = pkKey.map((e) => "'$e'").join(', ');
-    final equaString = pkKey.map((e) => '$e!').join(', ');
     sink.write('\n  static const pkKey= [$pkKeyString];\n');
 
     sink.write('\n  const factory $pascalCaseTable({\n');
@@ -80,25 +79,17 @@ Future<void> generateDartFiles(String inputFile, String outputDir) async {
 
     sink.write('  }) = _$pascalCaseTable;\n\n');
 
-    sink.write('  @override\n');
-    sink.write('  String get idName => attrId;\n\n');
-
-    sink.write('  @override\n');
+    /*
+    sink.write('  String idName() => attrId;\n\n');
     sink.write(
-      '  Object get identifier => id;\n\n',
-    ); // TODO(udi): Hack for id
+      '  Object? identifier() => id;\n\n',
+    ); 
+    */
 
     sink.write(
       '  factory $pascalCaseTable.fromJson(Map<String, Object?> json)'
       ' => _\$${pascalCaseTable}FromJson(json);\n\n',
     );
-
-    sink.write('  @override\n');
-    sink.write('  $pascalCaseTable fromJson(Map<String, Object?> json)'
-        ' => _\$${pascalCaseTable}FromJson(json);\n\n');
-
-    sink.write('  @override\n');
-    sink.write('  List<Object> get props => [$equaString];\n');
 
     sink.write('}\n');
 
