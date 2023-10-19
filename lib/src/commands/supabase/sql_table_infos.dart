@@ -80,7 +80,7 @@ WITH
         table_name
 )
 SELECT 
-    JSONB_OBJECT_AGG(table_name, columns) AS tables_info
+    JSONB_OBJECT_AGG(table_name, columns) AS tables_infos
 FROM 
     aggregated_columns;
 ''';

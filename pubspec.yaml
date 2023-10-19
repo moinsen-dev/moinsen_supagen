@@ -10,11 +10,16 @@ dependencies:
   antlr4:
   args:
   cli_completion: 
+  equatable:
+  freezed: 
+  freezed_annotation:
   http:
   mason_logger:
   path:
   pub_updater: 
-
+  storage_client:
+  supabase_flutter: ^2.0.0-dev.0
+  
 dev_dependencies:
   build_runner: ^2.4.4
   build_verify: ^3.1.0

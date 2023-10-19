@@ -39,12 +39,3 @@ Future<void> generatePrismaFile(String inputFile, String outputDir) async {
 
   await sink.close();
 }
-
-String prismaType(String type) {
-  if (type.startsWith('_')) {
-    final elementType = baseType(type.substring(1));
-    return toPascalCase('$elementType[]');
-  }
-
-  return toPascalCase(baseType(type));
-}

@@ -48,26 +48,3 @@ Future<void> generateErdFile(String inputFile, String outputDir) async {
 
   await sink.close();
 }
-
-String erdKey(String key) {
-  if (key == 'PRIMARY KEY') {
-    return 'PK';
-  } else if (key == 'FOREIGN KEY') {
-    return 'FK';
-  }
-
-  return '';
-}
-
-bool isArray(String type) {
-  return type.startsWith('_');
-}
-
-String erdType(String type) {
-  if (isArray(type)) {
-    final elementType = baseType(type.substring(1));
-    return elementType;
-  }
-
-  return baseType(type);
-}

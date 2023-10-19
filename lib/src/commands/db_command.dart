@@ -41,19 +41,17 @@ Db command extracts data from a supabase database and generate JSON files with t
 
   @override
   Future<int> run() async {
-    var output = 'db command.';
+    const output = 'db command.';
 
     if (argResults != null) {
       final outputDir = (argResults?['output'] as String).trim();
 
-      if (argResults?['relations'] == true) {
-        output = 'Generate relation information file.';
-        output += 'Result:${await generateRelationFile(outputDir)}';
-      }
+      final r = await generateFile(outputDir);
 
-      if (argResults?['table'] == true) {
-        output = 'Generate table information file.';
-        output += 'Result:${await generateTableFile(outputDir)}';
+      if (r) {
+        _logger.info('Success');
+      } else {
+        _logger.info('Error');
       }
     }
 

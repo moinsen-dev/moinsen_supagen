@@ -5,17 +5,10 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "supagen-db-relations",
+      "name": "supagen-db",
       "request": "launch",
       "type": "dart",
-      "args": ["db", "-r", "-o example/orm"],
-      "program": "bin/moinsen_supagen.dart"
-    },
-    {
-      "name": "supagen-db-table",
-      "request": "launch",
-      "type": "dart",
-      "args": ["db", "-t", "-o example/orm"],
+      "args": ["db", "-o example/orm"],
       "program": "bin/moinsen_supagen.dart"
     },
     {

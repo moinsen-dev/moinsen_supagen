@@ -11,11 +11,10 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  supabase_flutter:
-  storage_client:
-  supabase_auth_ui: 
   freezed_annotation:
   json_annotation:
+  moinsen_supagen:
+    path: ../
 
 dev_dependencies:
   flutter_test:

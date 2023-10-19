@@ -3,9 +3,8 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-Future<String?> executeSqlAndWriteToFile({
+Future<String?> executeSql({
   required String sqlStatement,
-  required String outputDir,
   required String filetype,
   String? supabaseUrl,
   String? supabaseApiKey,
@@ -31,17 +30,7 @@ Future<String?> executeSqlAndWriteToFile({
     );
 
     if (response.statusCode == 200) {
-      final directory = Directory(outputDir);
-      if (!directory.existsSync()) {
-        await directory.create();
-      }
-
-      final file = File('${directory.path}/$filetype.json');
-      await file.writeAsString(
-        response.body,
-      );
-
-      return null; // Success
+      return response.body;
     } else {
       return 'Error: ${response.statusCode} ${response.reasonPhrase}';
     }
