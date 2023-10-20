@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:moinsen_supagen/src/commands/supabase/sql_enums.dart';
 import 'package:moinsen_supagen/src/commands/supabase/sql_helper.dart';
 import 'package:moinsen_supagen/src/commands/supabase/sql_table_infos.dart';
 import 'package:moinsen_supagen/src/commands/supabase/sql_table_relations.dart';
@@ -11,32 +12,34 @@ const filenameSqlRelationInfos = 'input/table_relations.sql';
 Future<bool> generateFile(String outputDir) async {
   final tableRelations = await executeSql(
     sqlStatement: sqlTableRelations,
-    filetype: 'table-relations',
   );
 
   final tableInfos = await executeSql(
     sqlStatement: sqlTableInfos,
-    filetype: 'table-infos',
   );
 
-  if (tableRelations != null && tableInfos != null) {
-    final result = await writeToFile(
-      jsonStringTableInfos: tableInfos,
-      jsonStringTableRelations: tableRelations,
-      outputDir: outputDir,
-    );
+  final dbEnums = await executeSql(
+    sqlStatement: sqlEnums,
+  );
 
-    if (result == null) {
-      return true;
-    }
+  final result = await writeToFile(
+    sqlMap: {
+      'tables_relations': tableRelations,
+      'tables_infos': tableInfos,
+      'db_enums': dbEnums,
+    },
+    outputDir: outputDir,
+  );
+
+  if (result == null) {
+    return true;
   }
 
   return false;
 }
 
 Future<String?> writeToFile({
-  required String jsonStringTableInfos,
-  required String jsonStringTableRelations,
+  required Map<String, String?> sqlMap,
   required String outputDir,
 }) async {
   try {
@@ -45,17 +48,19 @@ Future<String?> writeToFile({
       await directory.create();
     }
 
-    final jsonTI = jsonDecode(jsonStringTableInfos)[0]['tables_infos'];
-    final jsonTR = jsonDecode(jsonStringTableRelations)[0]['tables_relations'];
-
-    final json = <String, dynamic>{
-      'tables_relations': jsonTR,
-      'tables_infos': jsonTI,
-    };
+    final json = <String, dynamic>{};
+    for (final entry in sqlMap.entries) {
+      final key = entry.key;
+      final jsonString = entry.value;
+      if (jsonString != null) {
+        final jsonEntry = jsonDecode(jsonString)[0][key];
+        json[key] = jsonEntry;
+      }
+    }
 
     const encoder = JsonEncoder.withIndent('  ');
     final jsonString = encoder.convert(json);
-    final file = File('${directory.path}/table-infos.json');
+    final file = File('${directory.path}/db-infos.json');
     await file.writeAsString(jsonString);
 
     return null; // Success

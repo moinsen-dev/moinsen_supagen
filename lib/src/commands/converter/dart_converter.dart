@@ -8,6 +8,47 @@ import 'package:moinsen_supagen/src/commands/converter/utils.dart';
 import 'package:simple_mustache/simple_mustache.dart';
 
 Future<void> generateDartFiles(String inputFile, String outputDir) async {
+  await generateEnumFile(inputFile, outputDir);
+  await generateEntityFiles(inputFile, outputDir);
+}
+
+Future<void> generateEnumFile(String inputFile, String outputDir) async {
+  final input = await File(inputFile).readAsString();
+  final inputJson = jsonDecode(input);
+  final json = inputJson['db_enums'] as List<dynamic>;
+
+  final directory = Directory(outputDir);
+  if (!directory.existsSync()) {
+    await directory.create();
+  }
+
+  final fileName = '$outputDir/enums.dart';
+
+  final file = File(fileName);
+  final sink = file.openWrite();
+
+  for (final e in json) {
+    final enumMap = e as Map<String, dynamic>;
+    final key = enumMap['name'] as String;
+    final values = enumMap['values'] as List<dynamic>;
+
+    final modifiedEnums = modifyTableName(key);
+    final pascalCaseEnums = toPascalCase(modifiedEnums);
+
+    sink.write('enum $pascalCaseEnums {\n');
+
+    for (final value in values) {
+      final enumString = toCamelCase(value as String);
+      sink.write('  $enumString,\n');
+    }
+
+    sink.write('}\n\n');
+  }
+
+  await sink.close();
+}
+
+Future<void> generateEntityFiles(String inputFile, String outputDir) async {
   final input = await File(inputFile).readAsString();
   final inputJson = jsonDecode(input);
   final json = inputJson['tables_infos'] as Map<String, dynamic>;
@@ -20,6 +61,7 @@ Future<void> generateDartFiles(String inputFile, String outputDir) async {
   final indexFileName = '$outputDir/_index.dart';
   final fileIndex = File(indexFileName);
   final sinkIndex = fileIndex.openWrite();
+  sinkIndex.write("export 'enums.dart';\n");
 
   for (final table in json.keys) {
     final modifiedTable =
@@ -32,8 +74,12 @@ Future<void> generateDartFiles(String inputFile, String outputDir) async {
     final file = File(fileName);
     final sink = file.openWrite();
 
+    sink.write('// ignore_for_file: unnecessary_import, unused_import\n');
     sink.write(
-      "import 'package:moinsen_supagen/moinsen_supagen.dart';\n\n",
+      "import 'package:moinsen_supagen/moinsen_supagen.dart';\n",
+    );
+    sink.write(
+      "import '_index.dart';\n\n",
     );
     sink.write("part '$modifiedTable.freezed.dart';\n");
     sink.write("part '$modifiedTable.g.dart';\n\n");

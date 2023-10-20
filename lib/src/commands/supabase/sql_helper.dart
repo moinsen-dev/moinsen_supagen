@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 
 Future<String?> executeSql({
   required String sqlStatement,
-  required String filetype,
   String? supabaseUrl,
   String? supabaseApiKey,
 }) async {
