@@ -3,7 +3,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:moinsen_supagen/src/commands/converter/entity_ext_helper.dart';
 import 'package:moinsen_supagen/src/commands/converter/utils.dart';
+import 'package:simple_mustache/simple_mustache.dart';
 
 Future<void> generateDartFiles(String inputFile, String outputDir) async {
   final input = await File(inputFile).readAsString();
@@ -36,8 +38,13 @@ Future<void> generateDartFiles(String inputFile, String outputDir) async {
     sink.write("part '$modifiedTable.freezed.dart';\n");
     sink.write("part '$modifiedTable.g.dart';\n\n");
     sink.write('@freezed\n');
+    /*
     sink.write(
       'class $pascalCaseTable extends MoinsenBaseEntity<$pascalCaseTable> with _\$$pascalCaseTable {\n',
+    );
+    */
+    sink.write(
+      'class $pascalCaseTable with _\$$pascalCaseTable {\n',
     );
     sink.write("  static const tableName = '$table';\n\n");
 
@@ -79,19 +86,17 @@ Future<void> generateDartFiles(String inputFile, String outputDir) async {
 
     sink.write('  }) = _$pascalCaseTable;\n\n');
 
-    /*
-    sink.write('  String idName() => attrId;\n\n');
-    sink.write(
-      '  Object? identifier() => id;\n\n',
-    ); 
-    */
-
     sink.write(
       '  factory $pascalCaseTable.fromJson(Map<String, Object?> json)'
-      ' => _\$${pascalCaseTable}FromJson(json);\n\n',
+      ' => _\$${pascalCaseTable}FromJson(json);\n',
     );
 
-    sink.write('}\n');
+    sink.write('}\n\n');
+
+    // Create a mustache converter
+    final m = Mustache(map: {'entity': pascalCaseTable});
+    final output = m.convert(entityExtensionTemplate);
+    sink.write(output);
 
     await sink.close();
   }

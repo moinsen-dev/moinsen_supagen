@@ -6,3 +6,4 @@ export 'package:freezed_annotation/freezed_annotation.dart';
 export 'package:supabase_flutter/supabase_flutter.dart';
 
 export 'utils/_index.dart';
+export 'widgets/_index.dart';
