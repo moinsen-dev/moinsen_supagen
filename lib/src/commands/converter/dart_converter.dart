@@ -92,7 +92,11 @@ Future<void> generateEntityFiles(String inputFile, String outputDir) async {
     sink.write(
       'class $pascalCaseTable with _\$$pascalCaseTable {\n',
     );
-    sink.write("  static const tableName = '$table';\n\n");
+    sink.write("  static const tableName = '$table';\n");
+    sink.write('  static String get idName => $pascalCaseTable.attrId;\n');
+    sink.write(
+      '  static SupabaseStreamBuilder get stream => Supabase.instance.client.from($pascalCaseTable.tableName).stream(primaryKey:[idName]);\n\n',
+    );
 
     final fields = sortAndFilterByName(json[table] as List<dynamic>);
     // -- Generate all attributes as constants
