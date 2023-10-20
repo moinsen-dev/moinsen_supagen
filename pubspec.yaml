@@ -17,6 +17,7 @@ dependencies:
   mason_logger:
   path:
   pub_updater: 
+  realtime_client: ^1.3.0
   simple_mustache: ^2.1.0
   storage_client:
   supabase_flutter: ^1.10.22
