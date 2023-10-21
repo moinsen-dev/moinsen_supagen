@@ -44,6 +44,9 @@ String baseType(String type) {
     case 'int4':
     case 'int8':
       return 'int';
+    case 'numeric':
+      return 'double';
+    case 'date':
     case 'timestamp':
     case 'timestamptz':
       return 'DateTime';

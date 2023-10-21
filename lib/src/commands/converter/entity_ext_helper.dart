@@ -6,7 +6,7 @@ extension {{entity}}X on {{entity}} {
   Future<dynamic> upsert() async {
     final client = Supabase.instance.client;
 
-    final response = await client.from({{entity}}.tableName).upsert(
+    final response = await client.from({{entity}}.tblName).upsert(
           this.toJson(),
         );
 
@@ -16,13 +16,13 @@ extension {{entity}}X on {{entity}} {
   Future<void> insert() async {
     final client = Supabase.instance.client;
 
-    await client.from({{entity}}.tableName).insert(this.toJson());
+    await client.from({{entity}}.tblName).insert(this.toJson());
   }
 
   Future<void> update() async {
     final client = Supabase.instance.client;
 
-    await client.from({{entity}}.tableName).update(this.toJson());
+    await client.from({{entity}}.tblName).update(this.toJson());
   }
 
   Future<void> delete() async {
@@ -32,7 +32,7 @@ extension {{entity}}X on {{entity}} {
 
     // ignore: unused_local_variable
     final response = await Supabase.instance.client
-        .from({{entity}}.tableName)
+        .from({{entity}}.tblName)
         .delete()
         .eq(idName, identifier!);
   }
@@ -40,7 +40,7 @@ extension {{entity}}X on {{entity}} {
   Future<List<{{entity}}>> select([String columns = '*']) async {
     final client = Supabase.instance.client;
 
-    final response = await client.from({{entity}}.tableName).select(columns);
+    final response = await client.from({{entity}}.tblName).select(columns);
 
     return response.map({{entity}}.fromJson).toList();
   }
@@ -53,7 +53,7 @@ extension {{entity}}X on {{entity}} {
     final client = Supabase.instance.client;
 
     final response = await client
-        .from({{entity}}.tableName)
+        .from({{entity}}.tblName)
         .select()
         .eq(idName, identifier!)
         .single();
