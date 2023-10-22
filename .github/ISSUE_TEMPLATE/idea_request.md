@@ -2,10 +2,11 @@
 name: Idea - Your brainstorming ...
 about: A new idea to be make this even better
 title: "idea: "
-labels: idea
+labels: idea tbd
+status: new
 ---
 
-**Whyn**
+**Why**
 
 Why do you think this is a good idea?
 
