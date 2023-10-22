@@ -1,126 +1,135 @@
 erDiagram
-	CmeEdges {
-		string color  "NULLABLE, , , "
-		datetime created_at  "NULLABLE, , , "
-		string description  "NULLABLE, , , "
-		string direction  ", , , "
-		string id PK ", , , "
-		string name  ", , , "
-		int thickness  "NULLABLE, , , "
-		datetime updated_at  "NULLABLE, , , "
+	CME_EDGES {
+		string color  
+		datetime created_at  
+		string description  
+		string direction  
+		string id PK 
+		string name  
+		int thickness  
+		datetime updated_at  
 	}
 
-	CmeIdeas {
-		datetime created_at  "NULLABLE, , , "
-		string description  "NULLABLE, , , "
-		string id PK ", , , "
-		string title  ", , , "
+	CME_IDEA_ITEMS }O--O{ CME_IDEAS, CME_IDEA_ITEMS }O--O{ CME_ITEMS: TBD
+	CME_IDEA_ITEMS {
+		datetime created_at  
+		string id PK 
+		string id_idea  
+		string id_item FK 
+		datetime updated_at  
 	}
 
-	CmeItems {
-		string attachments  "NULLABLE, , , "
-		string category  "NULLABLE, , , "
-		string classification  "NULLABLE, , , "
-		datetime created_at  "NULLABLE, , , "
-		string data  "NULLABLE, , , "
-		string description  "NULLABLE, , , "
-		datetime end_date  "NULLABLE, , , "
-		string id PK ", , , "
-		int id_location FK "NULLABLE, , , "
-		string id_user FK ", , , "
-		string notes  "NULLABLE, , , "
-		string origin  "NULLABLE, , , "
-		string priority  "NULLABLE, , , "
-		datetime start_date  "NULLABLE, , , "
-		string tags  "NULLABLE, , , "
-		string text  "NULLABLE, , , "
-		string title  ", , , "
-		datetime updated_at  "NULLABLE, , , "
+	CME_IDEA_VERSIONS }O--O{ CME_IDEAS: TBD
+	CME_IDEA_VERSIONS {
+		datetime created_at  
+		string description  
+		string id PK 
+		string id_idea  
+		string title  
+		datetime updated_at  
+		int version  
 	}
 
-	CmeScores {
-		datetime created_at  "NULLABLE, , , "
-		string id PK ", , , "
-		string id_idea  "NULLABLE, , , "
-		string score_type  ", , , "
-		int score_value  "NULLABLE, , , "
-		datetime updated_at  "NULLABLE, , , "
+	CME_IDEAS {
+		datetime created_at  
+		string description  
+		string id PK 
+		string title  
 	}
 
-	CmeProfiles {
-		string avatar_url  "NULLABLE, , , "
-		datetime created_at  "NULLABLE, , , "
-		string full_name  "NULLABLE, , , "
-		string id FK ", , , "
-		string id_user FK "NULLABLE, , , "
-		datetime updated_at  "NULLABLE, , , "
-		string username  "NULLABLE, , , "
-		string website  "NULLABLE, , , "
+	CME_ITEM_RELATIONS }O--O{ CME_EDGES, CME_ITEM_RELATIONS }O--O{ CME_ITEMS: TBD
+	CME_ITEM_RELATIONS {
+		datetime created_at  
+		string id PK 
+		string id_child_item FK 
+		string id_edge FK 
+		string id_parent_item FK 
+		datetime updated_at  
 	}
 
-	CmeLocations {
-		datetime created_at  "NULLABLE, , , "
-		int id PK ", , , "
-		string id_google_place  "NULLABLE, , , "
-		string id_user FK "NULLABLE, , , "
-		string name  "NULLABLE, , , "
-		datetime update_at  "NULLABLE, , , "
+	CME_ITEMS }O--O{ CME_LOCATIONS, CME_ITEMS }O--O{ CME_PROFILES: TBD
+	CME_ITEMS {
+		string attachments  
+		string category  
+		string classification  
+		datetime created_at  
+		string data  
+		string description  
+		datetime end_date  
+		string id PK 
+		int id_location FK 
+		string id_user FK 
+		string notes  
+		string origin  
+		string priority  
+		datetime start_date  
+		string tags  
+		string text  
+		string title  
+		datetime updated_at  
 	}
 
-	CmeIdeaItems {
-		datetime created_at  "NULLABLE, , , "
-		string id PK ", , , "
-		string id_idea  "NULLABLE, , , "
-		string id_item FK "NULLABLE, , , "
-		datetime updated_at  "NULLABLE, , , "
+	CME_LOCATIONS }O--O{ CME_PROFILES: TBD
+	CME_LOCATIONS {
+		datetime created_at  
+		int id PK 
+		string id_google_place  
+		string id_user FK 
+		string name  
+		datetime update_at  
 	}
 
-	CmeNodePages {
-		string checksum  "NULLABLE, , , "
-		int id PK ", , , "
-		int id_parent_page FK "NULLABLE, , , "
-		string meta  "NULLABLE, , , "
-		string path  ", , , "
-		string source  "NULLABLE, , , "
-		string type  "NULLABLE, , , "
+	CME_NODE_PAGES }O--O{ CME_NODE_PAGES: TBD
+	CME_NODE_PAGES {
+		string checksum  
+		int id PK 
+		int id_parent_page FK 
+		string meta  
+		string path  
+		string source  
+		string type  
 	}
 
-	CmeRecordings {
-		datetime created_at  ", , , "
-		string id PK ", , , "
-		string id_user FK ", , , "
-		string language  "NULLABLE, , , "
-		string text  "NULLABLE, , , "
-		datetime updated_at  ", , , "
-		string url  ", , , "
+	CME_NODE_PAGES_SECTION }O--O{ CME_NODE_PAGES: TBD
+	CME_NODE_PAGES_SECTION {
+		string content  
+		string embedding  
+		string heading  
+		int id PK 
+		int id_page FK 
+		string slug  
+		int token_count  
 	}
 
-	CmeIdeaVersions {
-		datetime created_at  "NULLABLE, , , "
-		string description  "NULLABLE, , , "
-		string id PK ", , , "
-		string id_idea  "NULLABLE, , , "
-		string title  ", , , "
-		datetime updated_at  "NULLABLE, , , "
-		int version  ", , , "
+	CME_PROFILES {
+		string avatar_url  
+		datetime created_at  
+		string full_name  
+		string id FK 
+		string id_user FK 
+		datetime updated_at  
+		string username  
+		string website  
 	}
 
-	CmeItemRelations {
-		datetime created_at  "NULLABLE, , , "
-		string id PK ", , , "
-		string id_child_item FK ", , , "
-		string id_edge FK ", , , "
-		string id_parent_item FK ", , , "
-		datetime updated_at  "NULLABLE, , , "
+	CME_RECORDINGS }O--O{ CME_PROFILES: TBD
+	CME_RECORDINGS {
+		datetime created_at  
+		string id PK 
+		string id_user FK 
+		string language  
+		string text  
+		datetime updated_at  
+		string url  
 	}
 
-	CmeNodePagesSection {
-		string content  "NULLABLE, , , "
-		string embedding  "NULLABLE, , , "
-		string heading  "NULLABLE, , , "
-		int id PK ", , , "
-		int id_page FK ", , , "
-		string slug  "NULLABLE, , , "
-		int token_count  "NULLABLE, , , "
+	CME_SCORES }O--O{ CME_IDEAS: TBD
+	CME_SCORES {
+		datetime created_at  
+		string id PK 
+		string id_idea  
+		string score_type  
+		int score_value  
+		datetime updated_at  
 	}
 

@@ -55,6 +55,49 @@ String baseType(String type) {
   }
 }
 
+/// Sort a list of strings by name (ignore case)
+List<String> sort(Iterable<String> list) {
+  final sortedList = <String>[];
+
+  for (final element in list) {
+    final lowerCaseElement = element.toLowerCase();
+    final index = sortedList.indexWhere(
+      (e) => lowerCaseElement.compareTo(e.toLowerCase()) < 0,
+    );
+
+    if (index == -1) {
+      sortedList.add(element);
+    } else {
+      sortedList.insert(index, element);
+    }
+  }
+
+  return sortedList;
+}
+
+/// Sort a list of tablename. If a group is given, the tables are sorted
+/// by the group of tables. All tables are sorted by name (ignore case)
+/// in the group.
+List<String> sortTablesByGroups(
+  Iterable<String> tables, {
+  Map<String, List<String>> group = const {},
+}) {
+  final sortedTables = <String>[];
+
+  for (final entry in group.entries) {
+    final groupTables = entry.value;
+    final sortedGroupTables = sort(groupTables);
+    sortedTables.addAll(sortedGroupTables);
+  }
+
+  final otherTables =
+      tables.where((element) => !sortedTables.contains(element));
+  final sortedOtherTables = sort(otherTables);
+  sortedTables.addAll(sortedOtherTables);
+
+  return sortedTables;
+}
+
 List<dynamic> sortAndFilterByName(List<dynamic> list) {
   final newList = [...list];
 

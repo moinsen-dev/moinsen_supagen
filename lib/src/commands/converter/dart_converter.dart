@@ -84,13 +84,8 @@ Future<void> generateEntityFiles(String inputFile, String outputDir) async {
     sink.write("part '$modifiedTable.freezed.dart';\n");
     sink.write("part '$modifiedTable.g.dart';\n\n");
     sink.write('@freezed\n');
-    /*
     sink.write(
       'class $pascalCaseTable extends MoinsenBaseEntity<$pascalCaseTable> with _\$$pascalCaseTable {\n',
-    );
-    */
-    sink.write(
-      'class $pascalCaseTable with _\$$pascalCaseTable {\n',
     );
     sink.write("  static const tblName = '$table';\n");
     sink.write('  static String get idName => $pascalCaseTable.attrId;\n');

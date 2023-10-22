@@ -83,6 +83,11 @@ $ genhtml coverage/lcov.info -o coverage/
 $ open coverage/index.html
 ```
 
+## Know How 
+# ERD - Mermaid
+
+https://mermaid.js.org/syntax/entityRelationshipDiagram.html
+
 ---
 
 [coverage_badge]: coverage_badge.svg

@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:moinsen_supagen/moinsen_supagen.dart';
 
-abstract class MoinsenBaseEntity<T> extends Equatable {}
+abstract class MoinsenBaseEntity<T> {} //extends Equatable {}
