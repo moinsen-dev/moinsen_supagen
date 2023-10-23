@@ -33,7 +33,7 @@ Future<String?> executeSql({
     } else {
       final msg =
           'Error: ${response.statusCode} ${response.reasonPhrase} BODY: ${response.body}';
-      print(msg)
+      print(msg);
       return msg;
     }
   } catch (e) {
