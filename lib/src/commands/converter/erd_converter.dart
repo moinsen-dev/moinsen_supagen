@@ -33,13 +33,7 @@ Future<void> generateErdFile(String inputFile, String outputDir) async {
   for (final table in sortedKeys) {
     final upperName = table.toUpperCase();
 
-    final relations = jsonRelations[table] as String?;
-
-    if (relations != null && relations.isNotEmpty) {
-      sink.write('\t$relations: tbd\n'.toUpperCase());
-    }
-
-    sink.write('\t$upperName {\n');
+    sink.write('  $upperName {\n');
 
     final fields = sortAndFilterByName(json[table] as List<dynamic>);
     for (final field in fields) {
@@ -52,11 +46,24 @@ Future<void> generateErdFile(String inputFile, String outputDir) async {
       const commentInfo = '';
       //'"$isRequired, $fieldAddInfo, $comment, "';
       sink.write(
-        '\t\t$type $lowerCaseName $keyInformations $commentInfo\n',
+        '    $type $lowerCaseName $keyInformations $commentInfo\n',
       );
     }
 
-    sink.write('\t}\n\n');
+    sink.write('  }\n\n');
+  }
+
+  for (final table in sortedKeys) {
+    final upperName = table.toUpperCase();
+
+    final relations = jsonRelations[table] as String?;
+
+    if (relations != null && relations.isNotEmpty) {
+      final relationsList = relations.split(',');
+      for (final relation in relationsList) {
+        sink.write('  ${relation.trim().toUpperCase()}: ""\n');
+      }
+    }
   }
 
   await sink.close();

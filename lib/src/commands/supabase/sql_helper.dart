@@ -31,7 +31,10 @@ Future<String?> executeSql({
     if (response.statusCode == 200) {
       return response.body;
     } else {
-      return 'Error: ${response.statusCode} ${response.reasonPhrase}';
+      final msg =
+          'Error: ${response.statusCode} ${response.reasonPhrase} BODY: ${response.body}';
+      print(msg)
+      return msg;
     }
   } catch (e) {
     return 'Exception: $e';
