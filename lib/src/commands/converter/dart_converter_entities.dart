@@ -51,6 +51,7 @@ Future<void> generateEntityFilesForSchema(
 
   for (final data in json) {
     final table = data['table'] as String;
+    final schemaTable = '$schema.${data['table'] as String}';
     final columns = data['columns'] as List<dynamic>;
 
     final modifiedTable = modifyTableName(
@@ -77,7 +78,7 @@ Future<void> generateEntityFilesForSchema(
     sink.write(
       'class $pascalCaseTable extends MoinsenBaseEntity<$pascalCaseTable> with _\$$pascalCaseTable {\n',
     );
-    sink.write("  static const tblName = '$table';\n");
+    sink.write("  static const tblName = '$schemaTable';\n");
     sink.write('  static String get idName => $pascalCaseTable.attrId;\n');
     sink.write(
       '  static SupabaseStreamBuilder get stream => Supabase.instance.client.from($pascalCaseTable.tblName).stream(primaryKey:[idName]);\n\n',
