@@ -157,6 +157,8 @@ bool isArray(String type) {
   return type.startsWith('_');
 }
 
+// TODO(udi): Type UUID support
+// TODO(udi): Id fields also as UUID
 String erdType(String type) {
   if (isArray(type)) {
     final elementType = baseType(type.substring(1));
