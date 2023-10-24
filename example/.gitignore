@@ -45,3 +45,5 @@ app.*.map.json
 
 # Ignore generated entity files
 /lib/entities/*
+/orm/db-infos.json
+

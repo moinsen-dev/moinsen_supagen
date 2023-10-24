@@ -34,9 +34,13 @@ Future<String?> executeSql({
       final msg =
           'Error: ${response.statusCode} ${response.reasonPhrase} BODY: ${response.body}';
       print(msg);
-      return msg;
+      print(sqlStatement);
+
+      return null;
     }
   } catch (e) {
-    return 'Exception: $e';
+    print('Exception: $e');
+
+    return null;
   }
 }

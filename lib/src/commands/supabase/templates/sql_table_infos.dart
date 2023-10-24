@@ -1,4 +1,4 @@
-const sqlTableInfos = '''
+const sqlTableInfosTemplate = '''
 WITH 
     table_columns AS (
         SELECT
@@ -47,11 +47,12 @@ WITH
         ON 
             pg_catalog.pg_class.relname = tc.table_name
         WHERE 
-            tc.table_schema = 'public'
+            tc.table_schema = ANY(ARRAY[{{schemaList}}]::name[])  -- Änderung hier
 ),
     ranked_columns AS (
         SELECT
             table_name,
+            table_schema,  -- Schema-Name hier hinzugefügt
             column_name,
             data_type,
             is_nullable,
@@ -63,6 +64,7 @@ WITH
 )
 , aggregated_columns AS (
     SELECT
+        table_schema,
         table_name,
         JSONB_AGG(
             JSONB_BUILD_OBJECT(
@@ -77,10 +79,25 @@ WITH
     FROM
         ranked_columns
     GROUP BY
+        table_schema,  -- Schema-Name hier hinzugefügt
         table_name
+),
+schema_aggregated AS (
+    SELECT
+        table_schema,
+        JSONB_AGG(
+            JSONB_BUILD_OBJECT(
+                'table', table_name,
+                'columns', columns
+            )
+        ) AS tables
+    FROM
+        aggregated_columns
+    GROUP BY
+        table_schema
 )
 SELECT 
-    JSONB_OBJECT_AGG(table_name, columns) AS tables_infos
+    JSONB_OBJECT_AGG(table_schema, tables) AS schema_tables_infos
 FROM 
-    aggregated_columns;
+    schema_aggregated;
 ''';

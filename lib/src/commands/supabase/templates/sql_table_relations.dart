@@ -1,13 +1,11 @@
-const sqlTableRelations = '''
+const sqlTableRelationsTemplate = '''
 WITH 
     fk_constraints AS (
         SELECT
             con.conname AS constraint_name,
-            cl.relname AS referencing_table,
-            nsp.nspname AS referencing_schema,
+            CONCAT(nsp.nspname, '.', cl.relname) AS referencing_table,
+            CONCAT(nsp_rf.nspname, '.', cl_rf.relname) AS referenced_table,
             att.attname AS referencing_column,
-            cl_rf.relname AS referenced_table,
-            nsp_rf.nspname AS referenced_schema_rf,
             att_rf.attname AS referenced_column,
             CASE 
                 WHEN con.confupdtype = 'a' THEN '}o' -- NO ACTION
@@ -41,12 +39,12 @@ WITH
             pg_attribute att_rf ON att_rf.attrelid = con.confrelid AND att_rf.attnum = ANY(con.confkey)
         WHERE 
             con.confrelid > 0 -- foreign key constraints only
-            AND nsp.nspname = 'public' -- ensure referencing table is in public schema
-            AND nsp_rf.nspname = 'public' -- ensure referenced table is in public schema
+            AND nsp.nspname = ANY(ARRAY[{{schemaList}}]::name[])  -- ensure referencing table is in specified schemas
+            AND nsp_rf.nspname = ANY(ARRAY[{{schemaList}}]::name[])  -- ensure referenced table is in specified schemas
     ),
     mermaid_relations AS (
         SELECT
-            DISTINCT
+            nsp.nspname AS schema_name,
             referencing_table,
             ARRAY_TO_STRING(
                 ARRAY_AGG(
@@ -56,11 +54,30 @@ WITH
             ) AS relations
         FROM
             fk_constraints
+        JOIN
+            pg_class cls ON cls.relname = split_part(referencing_table, '.', 2)
+        JOIN
+            pg_namespace nsp ON nsp.oid = cls.relnamespace
         GROUP BY
+            nsp.nspname,
             referencing_table
+    ),
+    schema_grouped_relations AS (
+        SELECT
+            schema_name,
+            JSONB_AGG(
+                JSONB_BUILD_OBJECT(
+                    'table', referencing_table,
+                    'relations', relations
+                )
+            ) AS tables
+        FROM
+            mermaid_relations
+        GROUP BY
+            schema_name
     )
 SELECT
-    JSONB_OBJECT_AGG(referencing_table, relations) AS tables_relations
+    JSONB_OBJECT_AGG(schema_name, tables) AS schema_tables_relations
 FROM
-    mermaid_relations;
+    schema_grouped_relations;
 ''';
