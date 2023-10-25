@@ -3,7 +3,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:moinsen_supagen/src/commands/converter/entity_ext_helper.dart';
+import 'package:moinsen_supagen/src/commands/converter/entity_templates.dart';
 import 'package:moinsen_supagen/src/commands/converter/utils.dart';
 import 'package:simple_mustache/simple_mustache.dart';
 
@@ -51,8 +51,12 @@ Future<void> generateEntityFilesForSchema(
 
   for (final data in json) {
     final table = data['table'] as String;
-    final schemaTable = '$schema.${data['table'] as String}';
+    final schemaTable = schema == 'public'
+        ? data['table'] as String
+        : '$schema.${data['table'] as String}';
     final columns = data['columns'] as List<dynamic>;
+    final content = StringBuffer();
+    final staticContent = StringBuffer();
 
     final modifiedTable = modifyTableName(
       table,
@@ -65,32 +69,13 @@ Future<void> generateEntityFilesForSchema(
     final file = File(fileName);
     final sink = file.openWrite();
 
-    sink.write('// ignore_for_file: unnecessary_import, unused_import\n');
-    sink.write(
-      "import 'package:moinsen_supagen/moinsen_supagen.dart';\n",
-    );
-    sink.write(
-      "import '_index.dart';\n\n",
-    );
-    sink.write("part '$modifiedTable.freezed.dart';\n");
-    sink.write("part '$modifiedTable.g.dart';\n\n");
-    sink.write('@freezed\n');
-    sink.write(
-      'class $pascalCaseTable extends MoinsenBaseEntity<$pascalCaseTable> with _\$$pascalCaseTable {\n',
-    );
-    sink.write("  static const tblName = '$schemaTable';\n");
-    sink.write('  static String get idName => $pascalCaseTable.attrId;\n');
-    sink.write(
-      '  static SupabaseStreamBuilder get stream => Supabase.instance.client.from($pascalCaseTable.tblName).stream(primaryKey:[idName]);\n\n',
-    );
-
     final fields = sortAndFilterByName(columns);
     // -- Generate all attributes as constants
     final pkKey = <String>[];
     for (final field in fields) {
       final fieldName = field['name'] as String;
       final attrName = 'attr${toPascalCase(fieldName)}';
-      sink.write("  static const $attrName = '$fieldName';\n");
+      staticContent.writeln("  static const $attrName = '$fieldName';");
 
       final keyInformations = erdKey(field['keyInformations'] as String);
       if (keyInformations.contains('PK')) {
@@ -100,39 +85,49 @@ Future<void> generateEntityFilesForSchema(
 
     // Convert pkKey to a list of quoted strings
     final pkKeyString = pkKey.map((e) => "'$e'").join(', ');
-    sink.write('\n  static const pkKey= [$pkKeyString];\n');
+    staticContent.writeln('\n  static const pkKey= [$pkKeyString];');
 
-    sink.write('\n  const factory $pascalCaseTable({\n');
     for (final field in fields) {
       final fieldName = field['name'] as String;
       final camelCaseName = toCamelCase(fieldName);
       final type = dartType(field['type'] as String);
 
       var nullable = '';
-      var required = '';
       if (field['name'] != 'id') {
         nullable = field['nullable'] as bool ? '?' : '';
-        required = field['nullable'] as bool ? '' : 'required ';
       } else {
         nullable = '?'; // Setzt id Feld als nullable
       }
 
-      sink.write('    $required$type$nullable $camelCaseName,\n');
+      content.writeln('  final $type$nullable $camelCaseName;');
     }
 
-    sink.write('  }) = _$pascalCaseTable;\n\n');
+    content.writeln('\n  const $pascalCaseTable({');
+    for (final field in fields) {
+      final fieldName = field['name'] as String;
+      final camelCaseName = toCamelCase(fieldName);
+      var required = '';
+      if (field['name'] != 'id') {
+        required = field['nullable'] as bool ? '' : 'required ';
+      }
 
-    sink.write(
-      '  factory $pascalCaseTable.fromJson(Map<String, Object?> json)'
-      ' => _\$${pascalCaseTable}FromJson(json);\n',
+      content.writeln('    ${required}this.$camelCaseName,');
+    }
+
+    content.writeln('  });');
+
+    final mTmplMap = Mustache(
+      map: {
+        'entity': pascalCaseTable,
+        'tableName': schemaTable,
+        'filename': modifiedTable,
+        'dollarEntity': '\$$pascalCaseTable',
+        'content': content.toString(),
+        'staticContent': staticContent.toString(),
+      },
     );
-
-    sink.write('}\n\n');
-
-    // Create a mustache converter
-    final m = Mustache(map: {'entity': pascalCaseTable});
-    final output = m.convert(entityExtensionTemplate);
-    sink.write(output);
+    final entityClass = mTmplMap.convert(templateDartEntity);
+    sink.write(entityClass);
 
     await sink.close();
   }
