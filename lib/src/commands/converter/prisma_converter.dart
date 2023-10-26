@@ -1,13 +1,19 @@
-// ignore_for_file: avoid_dynamic_calls
-
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:moinsen_supagen/src/commands/converter/utils.dart';
+import 'package:moinsen_supagen/src/structure/ms_json_converter.dart';
 
 Future<void> generatePrismaFile(String inputFile, String outputDir) async {
   final input = await File(inputFile).readAsString();
   final jsonInput = jsonDecode(input);
+
+  final converter = MsJsonConverter(
+    jsonData: jsonInput as Map<String, dynamic>,
+  );
+
+  converter.parseDatabaseJson();
+
   final json = jsonInput['tables_infos'] as Map<String, dynamic>;
 
   final directory = Directory(outputDir);

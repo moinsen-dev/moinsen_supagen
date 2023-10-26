@@ -2,7 +2,6 @@
 library moinsen_supagen;
 
 export 'package:equatable/equatable.dart';
-export 'package:freezed_annotation/freezed_annotation.dart';
 export 'package:realtime_client/realtime_client.dart';
 export 'package:supabase/src/supabase_stream_builder.dart'
     show SupabaseStreamBuilder;

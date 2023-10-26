@@ -7,7 +7,11 @@ import 'package:moinsen_supagen/src/commands/converter/entity_templates.dart';
 import 'package:moinsen_supagen/src/commands/converter/utils.dart';
 import 'package:simple_mustache/simple_mustache.dart';
 
-Future<void> generateEntityFiles(String inputFile, String outputDir) async {
+Future<void> generateEntityFiles({
+  required String inputFile,
+  required String outputDir,
+  List<String>? schemas,
+}) async {
   final input = await File(inputFile).readAsString();
   final inputJson = jsonDecode(input);
   final json = inputJson['tables'] as Map<String, dynamic>;
@@ -22,6 +26,10 @@ Future<void> generateEntityFiles(String inputFile, String outputDir) async {
   final sinkIndex = fileIndex.openWrite();
 
   for (final schema in json.keys) {
+    if (schemas != null && !schemas.contains(schema)) {
+      continue;
+    }
+
     await generateEntityFilesForSchema(
       schema,
       outputDir,

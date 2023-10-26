@@ -11,9 +11,8 @@ dependencies:
   args:
   cli_completion: 
   equatable:
-  freezed: 
-  freezed_annotation:
   http:
+  json_annotation:
   mason_logger:
   path:
   pub_updater: 
@@ -21,14 +20,16 @@ dependencies:
   simple_mustache: ^2.1.0
   storage_client:
   supabase_flutter: ^1.10.22
-  
+
 dev_dependencies:
   build_runner: ^2.4.4
   build_verify: ^3.1.0
   build_version: ^2.1.1
+  json_serializable:
   mocktail: ^1.0.0
   test: ^1.24.6
   very_good_analysis: ^5.1.0
+
 
 executables:
   moinsen_supagen:

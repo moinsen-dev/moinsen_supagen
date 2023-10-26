@@ -46,6 +46,7 @@ String? subJsonFromString(String key, bool isArray, String? jsonString) {
 
 Future<bool> generateFile(String outputDir) async {
   final schemas = <String>['public', 'core', 'blogai'];
+
   final templMap = <String, dynamic>{
     'schemaList': generateSchemaListString(schemas),
   };

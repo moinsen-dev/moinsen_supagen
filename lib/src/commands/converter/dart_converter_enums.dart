@@ -5,7 +5,11 @@ import 'dart:io';
 
 import 'package:moinsen_supagen/src/commands/converter/utils.dart';
 
-Future<void> generateEnumFile(String inputFile, String outputDir) async {
+Future<void> generateEnumFile({
+  required String inputFile,
+  required String outputDir,
+  List<String>? schemas,
+}) async {
   final input = await File(inputFile).readAsString();
   final inputJson = jsonDecode(input);
   final jsonAll = inputJson['enums'] as Map<String, dynamic>;
@@ -16,6 +20,10 @@ Future<void> generateEnumFile(String inputFile, String outputDir) async {
   }
 
   for (final schema in jsonAll.keys) {
+    if (schemas != null && !schemas.contains(schema)) {
+      continue;
+    }
+
     await generateEnumFileFromSchema(
       schema,
       outputDir,
